@@ -1,5 +1,5 @@
 use std::fs::File;
-use std::io::{prelude, Read};
+use std::io::Read;
 
 fn main() -> std::io::Result<()> {
     let mut file = File::open("input.txt")?;
@@ -38,7 +38,6 @@ fn report_is_valid(mut report: Vec<i32>, on_sublist:Option<bool>) -> Result<bool
 
         let adjusted_num = second_number * ascention_order_mult;
 
-        // let in_range = if ascention_order_mult == 1 {return }
         match (range[0] <= adjusted_num && adjusted_num <= range[1]) {
             true => continue,
             false => if !allow_one_problem {return Ok(false)} else{
