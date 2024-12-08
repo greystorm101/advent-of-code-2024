@@ -18,24 +18,19 @@ fn main() -> std::io::Result<()>{
     let vertical_line_len = lines[0].len();
 
     // Start with Horizontal and the reverse
-    println!("---------- HORIZONTAL");
     for line in &lines{
         num_xmas_words += count_xmas_occurences(line);
         num_xmas_words += count_xmas_occurences(&reverse_string(line));
     }
-    println!("---------- HORIZONTAL TOTAL: {}", num_xmas_words);
 
 
     // Vertical and reverse (assumes all rows are same length)
-    println!("---------- VERTICAL");
     let vertical_lines = lines.clone();
     for i in 0..vertical_line_len{
         let vertical_row : String = vertical_lines.iter().map(|x| x.chars().nth(i).unwrap_or(' ')).collect();
         num_xmas_words += count_xmas_occurences(&vertical_row);
         num_xmas_words += count_xmas_occurences(&reverse_string(&vertical_row));
     }
-    println!("---------- VERTICAL TOTAL: {}", num_xmas_words);
-
 
     // Diagonals and reverse. These suck :(
     //      3 4 5 6 7 8 9
@@ -97,14 +92,10 @@ fn reverse_string(input: &str) -> String{
 }
 
 fn count_xmas_occurences(input: &str) -> i32{
-    println!("Line: {}", input);
     let xmas_regex = Regex::new(r"XMAS").unwrap();
-    if let Some(matches) = xmas_regex.captures(input){
-        let num_matches = matches.len().try_into().unwrap();
-        println!("Matches: {}\n-----", num_matches);
-        return num_matches
-    }
-    println!("Matches: 0\n-----");
-    0
+    let num_matches = xmas_regex.find_iter(input).count();
+    // println!("Matches: {}\n-----", num_matches);
+    return num_matches.try_into().unwrap()
+    
 
 }
